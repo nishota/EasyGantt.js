@@ -194,3 +194,7 @@ window.onload = () => {
     }
   );
 }
+
+window.onresize = ()=>{
+  renderDom();
+}

@@ -15,12 +15,12 @@ var shownTooltip;
 const urlSetting = "properties/setting.json";
 const urlTasks = "properties/tasks.json";
 const oneHour = 60;
-const halfHour = oneHour/2;
+const halfHour = oneHour / 2;
 
 // task配列が存在する日の回数分、チャートを表示するdaily-area要素を描画する
 const dailyAreaDOM = () => {
   if (task) {
-    for (let i = 0; i < task.length; i++) {
+    for (let i = 0; i < Object.keys(task).length; i++) {
       const contentObj = document.getElementById("easygantt");
       const chartElement = document.createElement('div');
       chartElement.className = 'chart';
@@ -47,9 +47,7 @@ const setTimeScale = (open, close) => {
   for (let i = 0; i <= scaleDiv; i++) {
     timeScale[i] = String((openMin + (i * halfHour)) / oneHour);
     if (timeScale[i].slice(-2) === ".5") {
-      timeScale[i] = timeScale[i].replace(".5", ":30");
-    } else {
-      timeScale[i] = timeScale[i] + ":00";
+      timeScale[i] = ""
     }
   }
 }
@@ -57,8 +55,8 @@ const setTimeScale = (open, close) => {
 // #easygantt要素の幅を取得して、scaleを均等に分割する
 const setTimeScaleWidth = () => {
   clientWidth = document.getElementById('easygantt').clientWidth;
-  // TODO: 1.5をうまく決めたい
-  const singleTimeScaleWidth = Math.floor(clientWidth / (this.scaleDiv + 1))-1.5;
+  // TODO: 2をうまく決めたい
+  const singleTimeScaleWidth = Math.floor(clientWidth / (this.scaleDiv + 1)) - 2;
   return singleTimeScaleWidth;
 }
 
@@ -94,10 +92,10 @@ const convertTimesToMins = (time) => {
 // tasks.jsの配列をもとに、チャートにバブルを描画する
 const bubbleDOM = (i, j, start, duration, element, width) => {
   // 1分あたりのバブルの長さ[px] = (width+縦線の太さ)/30分
-  let widthAboutMin = (width+0.5) / halfHour;
+  let widthAboutMin = (width + 0.5) / halfHour;
   // 始業からタスク開始までの分数
   let startTaskMin = start - convertTimesToMins(openingTime);
-  var html = shownTooltip?`
+  var html = shownTooltip ? `
 <li><div class="${task[i][j].category}">
   <span class="bubble" style="margin-left: ${startTaskMin * widthAboutMin}px;
     width: ${duration * widthAboutMin}px;">
@@ -108,7 +106,7 @@ const bubbleDOM = (i, j, start, duration, element, width) => {
     </span>
   </span>
 </div></li>
-`:`
+`: `
 <li><div class="${task[i][j].category}">
   <span class="bubble" style="margin-left: ${startTaskMin * widthAboutMin}px;
     width: ${duration * widthAboutMin}px;"></span>
@@ -154,6 +152,8 @@ const renderDom = () => {
             timeScaleWidth
           );
         }
+      } else {
+        document.getElementById(`date${i}`).parentElement.style = "display:none;"
       }
     }
   }
@@ -165,7 +165,7 @@ const getJson = (url, callback) => {
   request.open("GET", url, true);
   request.onreadystatechange = () => {
     if (request.status == 200) {
-      if(request.readyState == 4 && request.responseText) {
+      if (request.readyState == 4 && request.responseText) {
         const result = JSON.parse(request.responseText)
         callback(result);
       }
@@ -197,8 +197,4 @@ window.onload = () => {
       getTask();
     }
   );
-}
-
-window.onresize = ()=>{
-  renderDom();
 }

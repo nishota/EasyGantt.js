@@ -11,6 +11,9 @@ var task;
 var urlSetting = "properties/setting.json";
 var urlTasks = "properties/tasks.json";
 
+// 詳細をTooltipで表示するかどうか
+var shownTooltip;
+
 // task配列が存在する日の回数分、チャートを表示するdaily-area要素を描画する
 const dailyAreaDOM = () => {
   if (task) {
@@ -51,9 +54,7 @@ const setTimeScale = (open, close) => {
 // #easygantt要素の幅を取得して、scaleを均等に分割する
 const setTimeScaleWidth = () => {
   clientWidth = document.getElementById('easygantt').clientWidth;
-  console.log(this.scaleDiv);
   const singleTimeScaleWidth = Math.floor(clientWidth / (this.scaleDiv + 1))-1;
-  console.log(singleTimeScaleWidth);
   return singleTimeScaleWidth;
 }
 
@@ -92,13 +93,25 @@ const bubbleDOM = (i, j, start, duration, element, width) => {
   let widthAboutMin = (width + 1) / 30;
   // 始業からタスク開始までの分数
   let startTaskMin = start - convertTimesToMins(openingTime);
-  element.insertAdjacentHTML('beforeend', `
-  <li><div class="${task[i][j].category}">
-    <span class="bubble" style="margin-left: ${startTaskMin * widthAboutMin}px;
-      width: ${duration * widthAboutMin}px;"></span>
-      ${bubbleData(i, j)}
-  </div></li>
-`);
+  var html = shownTooltip?`
+<li><div class="${task[i][j].category}">
+  <span class="bubble" style="margin-left: ${startTaskMin * widthAboutMin}px;
+    width: ${duration * widthAboutMin}px;">
+    <span class="tooltip">
+      <span class="context">
+        ${bubbleData(i, j)}
+      </span>
+    </span>
+  </span>
+</div></li>
+`:`
+<li><div class="${task[i][j].category}">
+  <span class="bubble" style="margin-left: ${startTaskMin * widthAboutMin}px;
+    width: ${duration * widthAboutMin}px;"></span>
+    ${bubbleData(i, j)}
+</div></li>
+`
+  element.insertAdjacentHTML('beforeend', html);
 }
 
 // task配列のデータを、「hh:mm-hh:mm タスクの説明」のフォーマットにして返す
@@ -176,6 +189,7 @@ window.onload = () => {
       openingTime = result.openingTime;
       closingTime = result.closingTime;
       weekNames = result.weekNames;
+      shownTooltip = result.shownTooltip;
       getTask();
     }
   );

@@ -145,8 +145,8 @@ const getJson = (url, callback) => {
   request.overrideMimeType("application/json");
   request.open("GET", url, true);
   request.onreadystatechange = () => {
-    if (request.readyState == 4 && request.status == 200) {
-      if (request.responseText) {
+    if (request.status == 200) {
+      if(request.readyState == 4 && request.responseText) {
         const result = JSON.parse(request.responseText)
         callback(result);
       }

@@ -20,7 +20,7 @@ const halfHour = oneHour/2;
 // task配列が存在する日の回数分、チャートを表示するdaily-area要素を描画する
 const dailyAreaDOM = () => {
   if (task) {
-    for (let i = 0; i < Object.keys(task).length; i++) {
+    for (let i = 0; i < task.length; i++) {
       const contentObj = document.getElementById("easygantt");
       const chartElement = document.createElement('div');
       chartElement.className = 'chart';

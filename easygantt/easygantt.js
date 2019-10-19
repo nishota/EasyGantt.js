@@ -19,21 +19,19 @@ const halfHour = oneHour / 2;
 
 // task配列が存在する日の回数分、チャートを表示するdaily-area要素を描画する
 const dailyAreaDOM = () => {
-  if (task) {
-    for (let i = 0; i < Object.keys(task).length; i++) {
-      const contentObj = document.getElementById("easygantt");
-      const chartElement = document.createElement('div');
-      chartElement.className = 'chart';
-      contentObj.appendChild(chartElement);
-      const chartArea = document.querySelectorAll(".chart");
-      chartArea[i].innerHTML = `
-        <span id="date${i}"></span>
-        <div class="daily-area">
-          <div class="scale"></div>
-          <ul class="data" id="task${i}"></ul>
-        </div>
-        `;
-    }
+  for (let i = 0; i < Object.keys(task).length; i++) {
+    const contentObj = document.getElementById("easygantt");
+    const chartElement = document.createElement('div');
+    chartElement.className = 'chart';
+    contentObj.appendChild(chartElement);
+    const chartArea = document.querySelectorAll(".chart");
+    chartArea[i].innerHTML = `
+      <span id="date${i}"></span>
+      <div class="daily-area">
+        <div class="scale"></div>
+        <ul class="data" id="task${i}"></ul>
+      </div>
+      `;
   }
 }
 
@@ -77,7 +75,6 @@ const dateDOM = (i) => {
   const m = taskDay.getMonth() + 1;
   const d = taskDay.getDate();
   const w = taskDay.getDay();
-
   document.getElementById("date" + [i]).innerText = `${m}/${d}(${weekNames[w % 7]})`;
 }
 
@@ -95,66 +92,53 @@ const bubbleDOM = (i, j, start, duration, element, width) => {
   let widthAboutMin = (width + 0.5) / halfHour;
   // 始業からタスク開始までの分数
   let startTaskMin = start - convertTimesToMins(openingTime);
-  var html = shownTooltip ? `
-<li><div class="${task[i][j].category}">
-  <span class="bubble" style="margin-left: ${startTaskMin * widthAboutMin}px;
-    width: ${duration * widthAboutMin}px;">
+  var html = `<li><div class="${task[i][j].category}">
+  <span class="bubble" style="margin-left: ${startTaskMin * widthAboutMin}px;width: ${duration * widthAboutMin}px;">`
+  html += shownTooltip?`
     <span class="tooltip">
       <span class="context">
         ${bubbleData(i, j)}
       </span>
     </span>
-  </span>
-</div></li>
-`: `
-<li><div class="${task[i][j].category}">
-  <span class="bubble" style="margin-left: ${startTaskMin * widthAboutMin}px;
-    width: ${duration * widthAboutMin}px;"></span>
-    ${bubbleData(i, j)}
-</div></li>
-`
+  </span>`: `</span>${bubbleData(i, j)}`
+  html += `</div></li>`;
   element.insertAdjacentHTML('beforeend', html);
 }
 
 // task配列のデータを、「hh:mm-hh:mm タスクの説明」のフォーマットにして返す
 const bubbleData = (i, j) => {
-  if (task[i][j].category !== "milestone") {
-    data = `<span class="time">
-              ${String(task[i][j].startTime).slice(0, -2)}:${String(task[i][j].startTime).slice(-2)}
-              -${String(task[i][j].endTime).slice(0, -2)}:${String(task[i][j].endTime).slice(-2)}
-            </span>
-            <span class="bubble-span">${task[i][j].name}</span>`;
-  } else {
-    data = `<span class="time">${String(task[i][j].startTime).slice(0, -2)}:${String(task[i][j].startTime).slice(-2)}</span>
-            <span class="milestone-span">${task[i][j].name}</span>`;
-  }
-  return data
+  return task[i][j].category !== "milestone"?
+    `<span class="time">
+      ${String(task[i][j].startTime).slice(0, -2)}:${String(task[i][j].startTime).slice(-2)}
+      -${String(task[i][j].endTime).slice(0, -2)}:${String(task[i][j].endTime).slice(-2)}
+    </span>
+    <span class="bubble-span">${task[i][j].name}</span>`:
+    `<span class="time">${String(task[i][j].startTime).slice(0, -2)}:${String(task[i][j].startTime).slice(-2)}</span>
+    <span class="milestone-span">${task[i][j].name}</span>`;
 }
 
 // DOMのレンダリングを実行する
 const renderDom = () => {
-  if (task) {
-    dailyAreaDOM();
-    let startTimeToMins = [], endTimeToMins = [], durationTimes = [];
-    for (let i = 0; i < Object.keys(task).length; i++) {
-      if (task[i][0]) {
-        setTimeScale(openingTime, closingTime);
-        timeScaleWidth = setTimeScaleWidth();
-        scaleDOM(i, timeScaleWidth);
-        dateDOM(i);
-        let createBubble = document.getElementById(`task${i}`);
-        startTimeToMins[i] = [], endTimeToMins[i] = [], durationTimes[i] = [];
-        for (let j = 0; j < Object.keys(task[i]).length; j++) {
-          bubbleDOM(i, j,
-            convertTimesToMins(task[i][j].startTime),
-            (convertTimesToMins(task[i][j].endTime) - convertTimesToMins(task[i][j].startTime)),
-            createBubble,
-            timeScaleWidth
-          );
-        }
-      } else {
-        document.getElementById(`date${i}`).parentElement.style = "display:none;"
+  dailyAreaDOM();
+  let startTimeToMins = [], endTimeToMins = [], durationTimes = [];
+  for (let i = 0; i < Object.keys(task).length; i++) {
+    if (task[i][0]) {
+      setTimeScale(openingTime, closingTime);
+      timeScaleWidth = setTimeScaleWidth();
+      scaleDOM(i, timeScaleWidth);
+      dateDOM(i);
+      let createBubble = document.getElementById(`task${i}`);
+      startTimeToMins[i] = [], endTimeToMins[i] = [], durationTimes[i] = [];
+      for (let j = 0; j < Object.keys(task[i]).length; j++) {
+        bubbleDOM(i, j,
+          convertTimesToMins(task[i][j].startTime),
+          (convertTimesToMins(task[i][j].endTime) - convertTimesToMins(task[i][j].startTime)),
+          createBubble,
+          timeScaleWidth
+        );
       }
+    } else {
+      document.getElementById(`date${i}`).parentElement.style = "display:none;"
     }
   }
 }
@@ -198,3 +182,5 @@ window.onload = () => {
     }
   );
 }
+
+// TODO: onresize

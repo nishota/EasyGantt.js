@@ -1,0 +1,10 @@
+{
+    "startDay":{
+        "year":2019,
+        "month":10,
+        "day":19
+    },
+    "openingTime":900,
+    "closingTime":2100,
+    "weekNames":["日", "月", "火", "水", "木", "金", "土"]
+}

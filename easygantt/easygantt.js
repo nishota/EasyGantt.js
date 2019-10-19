@@ -8,11 +8,14 @@ var closingTime;
 var weekNames;
 // ガントチャートに表示するタスク
 var task;
-var urlSetting = "properties/setting.json";
-var urlTasks = "properties/tasks.json";
-
 // 詳細をTooltipで表示するかどうか
 var shownTooltip;
+
+//定数
+const urlSetting = "properties/setting.json";
+const urlTasks = "properties/tasks.json";
+const oneHour = 60;
+const halfHour = oneHour/2;
 
 // task配列が存在する日の回数分、チャートを表示するdaily-area要素を描画する
 const dailyAreaDOM = () => {
@@ -40,9 +43,9 @@ const setTimeScale = (open, close) => {
   closeMin = convertTimesToMins(close);
   workingMin = closeMin - openMin;
   timeScale = [];
-  scaleDiv = workingMin / 30;
+  scaleDiv = workingMin / halfHour;
   for (let i = 0; i <= scaleDiv; i++) {
-    timeScale[i] = String((openMin + (i * 30)) / 60);
+    timeScale[i] = String((openMin + (i * halfHour)) / oneHour);
     if (timeScale[i].slice(-2) === ".5") {
       timeScale[i] = timeScale[i].replace(".5", ":30");
     } else {
@@ -54,7 +57,8 @@ const setTimeScale = (open, close) => {
 // #easygantt要素の幅を取得して、scaleを均等に分割する
 const setTimeScaleWidth = () => {
   clientWidth = document.getElementById('easygantt').clientWidth;
-  const singleTimeScaleWidth = Math.floor(clientWidth / (this.scaleDiv + 1))-1;
+  // TODO: 1.5をうまく決めたい
+  const singleTimeScaleWidth = Math.floor(clientWidth / (this.scaleDiv + 1))-1.5;
   return singleTimeScaleWidth;
 }
 
@@ -83,14 +87,14 @@ const dateDOM = (i) => {
 const convertTimesToMins = (time) => {
   let hour = parseInt(String(time).slice(0, -2));
   let min = parseInt(String(time).slice(-2));
-  let sumMins = hour * 60 + min;
+  let sumMins = hour * oneHour + min;
   return sumMins;
 }
 
 // tasks.jsの配列をもとに、チャートにバブルを描画する
 const bubbleDOM = (i, j, start, duration, element, width) => {
-  // 1分あたりのバブルの長さ[px]
-  let widthAboutMin = (width + 1) / 30;
+  // 1分あたりのバブルの長さ[px] = (width+縦線の太さ)/30分
+  let widthAboutMin = (width+0.5) / halfHour;
   // 始業からタスク開始までの分数
   let startTaskMin = start - convertTimesToMins(openingTime);
   var html = shownTooltip?`

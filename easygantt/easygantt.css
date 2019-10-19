@@ -35,7 +35,6 @@
 
 #easygantt .scale section {
   float: left;
-  /* border-leftの線の太さを考慮して60 - 1する */
   text-align: center;
   background-color: #333;
   color: #979796;

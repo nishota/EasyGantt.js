@@ -41,7 +41,7 @@
   color: #979796;
   font-size: 14px;
   font-weight: lighter;
-  border-left: 1px dashed rgba(250,250,250,0.2);
+  border-left: 0.5px dashed rgba(250,250,250,0.2);
   height: 100%
 }
 

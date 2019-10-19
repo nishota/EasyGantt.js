@@ -51,7 +51,9 @@ const setTimeScale = (open, close) => {
 // #easygantt要素の幅を取得して、scaleを均等に分割する
 const setTimeScaleWidth = () => {
   clientWidth = document.getElementById('easygantt').clientWidth;
-  const singleTimeScaleWidth = clientWidth / (this.scaleDiv + 1) - 9;
+  console.log(this.scaleDiv);
+  const singleTimeScaleWidth = Math.floor(clientWidth / (this.scaleDiv + 1))-1;
+  console.log(singleTimeScaleWidth);
   return singleTimeScaleWidth;
 }
 

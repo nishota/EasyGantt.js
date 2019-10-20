@@ -1,0 +1,67 @@
+[
+    [
+        {
+            "name": "勉強会",
+            "startTime": 1000,
+            "endTime": 1045,
+            "category": "event"
+        },
+        {
+            "name": "企画会議",
+            "startTime": 1300,
+            "endTime": 1340,
+            "category": "event"
+        },
+        {
+            "name": "アプリ開発",
+            "startTime": 1400,
+            "endTime": 1730,
+            "category": "event"
+        },
+        {
+            "name": "クラウド研修応募締切",
+            "startTime": 1500,
+            "endTime": 1500,
+            "category": "milestone"
+        },
+        {
+            "name": "課長不在",
+            "startTime": 1300,
+            "endTime": 1730,
+            "category": "absence"
+        },
+        {
+            "name": "ビジュアルコミュニケーションセミナー",
+            "startTime": 1100,
+            "endTime": 1200,
+            "category": "lecture"
+        },
+        {
+            "name": "部のランチ会",
+            "startTime": 1200,
+            "endTime": 1300,
+            "category": "other"
+        }
+    ],
+    [],
+    [
+        {
+            "name": "品川出張",
+            "startTime": 1100,
+            "endTime": 1730,
+            "category": "other"
+        },
+        {
+            "name": "A社と打ち合わせ",
+            "startTime": 1300,
+            "endTime": 1500,
+            "category": "meeting"
+        },
+        {
+            "name": "提案書締切",
+            "startTime": 1700,
+            "endTime": 1700,
+            "category": "milestone"
+        }
+    ]
+]

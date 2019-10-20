@@ -16,9 +16,6 @@
   position: relative;
 }
 
-#easygantt .hr {
-  border-top: 1px solid rgba(250,250,250,0.5);
-}
 /* バブルの色 */
 #easygantt .dev span.bubble, .nav.dev { background-color: #2b8fef; }
 #easygantt .lecture span.bubble, .nav.lecture { background-color: #13d604; }
@@ -40,6 +37,7 @@
   color: #979796;
   font-size: 14px;
   font-weight: lighter;
+  border-top: 1px solid rgba(250,250,250,0.5);
   border-left: 0.5px dashed rgba(250,250,250,0.2);
   height: 100%
 }

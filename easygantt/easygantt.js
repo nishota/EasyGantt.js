@@ -61,7 +61,6 @@ const setTimeScaleWidth = () => {
 // setTimeScaleWidthで取得したひとつあたりのtimeScaleの値に応じたwidthで、時間軸を描画する
 const scaleDOM = (i, width) => {
   const scale = document.querySelectorAll(".scale");
-  scale[i].insertAdjacentHTML('beforeend', '<div class="hr">')
   for (let j = 0; j < timeScale.length; j++) {
     scale[i].insertAdjacentHTML('beforeend', `
       <section style="width: ${width}px;">${timeScale[j]}</section></div>

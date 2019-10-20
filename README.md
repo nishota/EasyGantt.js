@@ -1,3 +1,21 @@
+## 追加実装部分/実装予定
+* easygantt[[demo](https://nishota.github.io/EasyGantt.js/example_easygantt.html)]
+  * getリクエスト経由でsetting.json, tasks.jsonを取得し、chartを表示。
+  * Tooltipでchart内容を表示するオプションを作成。
+  * TODO: categoryの中身もsetting.jsonで取得するように変更
+  * TODO: 
+
+* easygantt2
+  * (現状、上のeasyganttと同じです。)
+  * TODO: 会議室の予約表のようなものを作りたい(最初からAngular用のコンポーネントを作るかも?)
+
+* ngEasyGantt
+  * TODO: 上２つをAngularのコンポーネント化する。
+
+---
+
+以下、[元コードのREADME](https://github.com/tachibanayu24/EasyGantt.js)です。
+
 ## What's EasyGantt.js
 
 カラフルなバブルで近日中の予定やマイルストンを可視化できるツールです。

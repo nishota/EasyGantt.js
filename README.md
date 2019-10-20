@@ -9,7 +9,7 @@
   * (現状、上のeasyganttと同じです。)
   * TODO: 会議室の予約表のようなものを作りたい(最初からAngular用のコンポーネントを作るかも?)
 
-* ngEasyGantt
+* NgEasyGantt(別リポジトリ)
   * TODO: 上２つをAngularのコンポーネント化する。
 
 ---
